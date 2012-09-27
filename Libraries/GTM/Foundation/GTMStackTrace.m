@@ -326,33 +326,33 @@ NSString *GHU_GTMStackTrace(void) {
 
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
 
-NSString *GHU_GTMStackTraceFromException(NSException *e) {
-  NSString *trace = @"";
-  
-  // collect the addresses
-  NSArray *addresses = [e callStackReturnAddresses];
-  NSUInteger count = [addresses count];
-  if (count) {
-    void **pcs = calloc(count, sizeof(void*));
-    struct GHU_GTMAddressDescriptor *descs
-      = calloc(count, sizeof(struct GHU_GTMAddressDescriptor));
-    if (pcs && descs) {
-      void **pcsScanner = pcs;
-      for (NSNumber *address in addresses) {
-        NSUInteger addr = [address unsignedIntegerValue];
-        *pcsScanner = (void *)addr;
-        ++pcsScanner;
-      }
-      // Fill in the desc structures
-      count = GHU_GTMGetStackAddressDescriptorsForAddresses(pcs, descs, count);
-      // Build the trace
-      trace = GHU_GTMStackTraceFromAddressDescriptors(descs, count);
-    }
-    if (pcs) free(pcs);
-    if (descs) free(descs);
-  }
-  
-  return trace;
-}
+//NSString *GHU_GTMStackTraceFromException(NSException *e) {
+//  NSString *trace = @"";
+//
+//  // collect the addresses
+//  NSArray *addresses = [e callStackReturnAddresses];
+//  NSUInteger count = [addresses count];
+//  if (count) {
+//    void **pcs = calloc(count, sizeof(void*));
+//    struct GHU_GTMAddressDescriptor *descs
+//      = calloc(count, sizeof(struct GHU_GTMAddressDescriptor));
+//    if (pcs && descs) {
+//      void **pcsScanner = pcs;
+//      for (NSNumber *address in addresses) {
+//        NSUInteger addr = [address unsignedIntegerValue];
+//        *pcsScanner = (void *)addr;
+//        ++pcsScanner;
+//      }
+//      // Fill in the desc structures
+//      count = GHU_GTMGetStackAddressDescriptorsForAddresses(pcs, descs, count);
+//      // Build the trace
+//      trace = GHU_GTMStackTraceFromAddressDescriptors(descs, count);
+//    }
+//    if (pcs) free(pcs);
+//    if (descs) free(descs);
+//  }
+//
+//  return trace;
+//}
 
 #endif  // MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
