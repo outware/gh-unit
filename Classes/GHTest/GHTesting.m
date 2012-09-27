@@ -56,7 +56,11 @@
 #import <objc/runtime.h>
 
 NSString *GHUStackTraceFromException(NSException *e) {
-  return GHU_GTMStackTraceFromException(e);
+#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+    return GHU_GTMStackTraceFromException(e);
+#else
+    return @"";
+#endif
 }
 
 NSInteger ClassSort(id a, id b, void *context) {
@@ -134,8 +138,8 @@ static GHTesting *gSharedInstance;
           [exception name],
           filenameDescription, 
           lineDescription, 
-          [exception reason], 
-          GHU_GTMStackTraceFromException(exception)];
+          [exception reason],
+          GHUStackTraceFromException(exception)];
 }  
 
 + (NSString *)exceptionFilenameForTest:(id<GHTest>)test {
